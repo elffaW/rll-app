@@ -37,6 +37,9 @@ const useStyles = makeStyles((theme) => ({
   //   width: `min(100%, ${theme.spacing(10)}px)`,
   //   height: `min(100%, ${theme.spacing(10)}px)`,
   // },
+  linkStyle: {
+    cursor: 'pointer',
+  },
   teamName: {
     fontSize: '1.1rem',
     fontVariant: 'small-caps',
@@ -89,7 +92,15 @@ const useStyles = makeStyles((theme) => ({
   largeIcon: {
     width: theme.spacing(7.5),
     height: theme.spacing(7.5),
-  }
+  },
+  streamText: {
+    transform: 'rotate(-90deg)',
+    fontVariant: 'small-caps',
+    color: 'inherit',
+    marginTop: theme.spacing(8),
+    // textShadow: 'none',
+    fontWeight: 700,
+  },
 }));
 
 export default function Games(props) {
@@ -171,29 +182,59 @@ export default function Games(props) {
     const upperDivLogo = images['RLL_logo'];
     const lowerDivLogo = images['RLL_logo_lower'];
 
+    // remove the date portion of the date
+    const timeOfGame = game.gameTime.split(' ').slice(1,3).join(' ');
+
+    const gsNum = game.streamRoom.slice(-1);
+    const gsColor = gsNum === '1' ? '#c62828' : gsNum === '2' ? 'blue' : 'yellow';
+
     const curGame = (
-      <Grid item xs={12} md={6} key={`gameweek-${curWeek}-game-${game.matchNum}row`}>
+      <Grid item xs={12} md={4} key={`gameweek-${curWeek}-game-${game.matchNum}row`}>
         <Paper className={classes.gamePaper}>
-          <Grid container direction="row" alignItems="center">
-            <Grid item xs={2}>
-              <Grid item>
-                <Avatar
-                  src={game.curDivision === '2' ? lowerDivLogo : upperDivLogo}
-                  variant="square"
-                  alt={`Division ${game.curDivision} logo`}
-                  className={classes.largeIcon}
-                />
+          <Grid container direction="row">
+            <Grid item xs={1}>
+              <Grid item style={{ height: '100%' }}>
+                <Typography
+                  className={`${classes.teamDesc} ${classes.teamRank} ${classes.streamText}`}
+                  style={{ textShadow: `0 0 1px ${gsColor}` }}
+                >
+                  {(game.streamRoom || 'GONGSHOW1').toLowerCase()}
+                </Typography>
               </Grid>
             </Grid>
-            <Grid item xs={10}>
+            <Grid item xs={2}>
+              <Grid container direction="column" alignItems="center" justify="flex-start">
+                <Grid item>
+                  <Avatar
+                    src={game.curDivision === '2' ? lowerDivLogo : upperDivLogo}
+                    variant="square"
+                    alt={`Division ${game.curDivision} logo`}
+                    className={classes.largeIcon}
+                  />
+                </Grid>
+                <Grid item>
+                  <span className={`${classes.teamDesc} ${classes.teamRank}`}>
+                    {timeOfGame}
+                  </span>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item xs={9}>
               <Grid container direction="column">
-                <Grid container justify="flex-start" alignItems="center">
-                  <Avatar src={logoSrc} variant="square" alt={`${game.homeTeamName} logo`} />
-                  <Grid item xs>
+                <Grid container justify="flex-start" alignItems="center"
+                >
+                  <Avatar
+                    src={logoSrc}
+                    variant="square"
+                    alt={`${game.homeTeamName} logo`}
+                    onClick={() => filterGames(game.homeTeamName)}
+                    className={classes.linkStyle}
+                  />
+                  <Grid item xs onClick={() => filterGames(game.homeTeamName)} className={classes.linkStyle}>
                     <span className={`${classes.teamDesc} ${classes.teamRank}`}>
                       {game.homeTeamRank}
                     </span>
-                    <span onClick={() => filterGames(game.homeTeamName)} className={`${classes.teamName} ${game.matchResult === 'L' ? classes.nameLoss : ''}`}>
+                    <span className={`${classes.teamName} ${game.matchResult === 'L' ? classes.nameLoss : ''}`}>
                       {game.homeTeamName}
                     </span>
                   </Grid>
@@ -206,12 +247,18 @@ export default function Games(props) {
                   </Grid>
                 </Grid>
                 <Grid container justify="flex-start" alignItems="center">
-                  <Avatar src={oppLogoSrc} variant="square" alt={`${game.awayTeamName} logo`} />
-                  <Grid item xs>
+                  <Avatar
+                    src={oppLogoSrc}
+                    variant="square"
+                    alt={`${game.awayTeamName} logo`}
+                    onClick={() => filterGames(game.awayTeamName)}
+                    className={classes.linkStyle}
+                  />
+                  <Grid item xs onClick={() => filterGames(game.awayTeamName)} className={classes.linkStyle}>
                     <span className={`${classes.teamDesc} ${classes.teamRank}`}>
                       {game.awayTeamRank}
                     </span>
-                    <span onClick={() => filterGames(game.awayTeamName)} className={`${classes.teamName} ${game.matchResult === 'W' ? classes.nameLoss : ''}`}>
+                    <span className={`${classes.teamName} ${game.matchResult === 'W' ? classes.nameLoss : ''}`}>
                       {game.awayTeamName}
                     </span>
                   </Grid>

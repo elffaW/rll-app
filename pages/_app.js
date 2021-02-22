@@ -18,6 +18,8 @@ function Application({ Component, pageProps }) {
       <Head>
         <title>Rocket League League</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="shortcut icon" href="/favicon.ico" />
       </Head>
       <ThemeProvider theme={baseTheme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}

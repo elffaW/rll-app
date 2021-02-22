@@ -1,5 +1,5 @@
 {
-  "short_name": "rll",
+  "short_name": "RLL",
   "name": "RLL",
   "icons": [
     {
@@ -19,7 +19,7 @@
     }
   ],
   "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "display": "fullscreen",
+  "theme_color": "#c62828",
+  "background_color": "#616161"
 }

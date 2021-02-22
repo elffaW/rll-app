@@ -1,12 +1,12 @@
 @font-face {
   font-family: Oswald;
-  src: url("./Oswald-VariableFont_wght.ttf");
+  src: url("/Oswald-VariableFont_wght.ttf");
 }
 
 body {
-  background-color: #616161;
-  font-family: Oswald;
-  color: whitesmoke;
+  background-color: #616161 !important;
+  font-family: Oswald !important;
+  color: whitesmoke !important;
 }
 
 h1, h2, h3, h4, h5, h6 {

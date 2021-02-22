@@ -21,7 +21,7 @@ function Application({ Component, pageProps }) {
       </Head>
       <ThemeProvider theme={baseTheme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-        <CssBaseline />
+        {/* <CssBaseline /> */}
         <Component {...pageProps} />
       </ThemeProvider>
     </React.Fragment>

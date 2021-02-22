@@ -86,6 +86,10 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     backgroundColor: theme.palette.primary.darkest,
   },
+  largeIcon: {
+    width: theme.spacing(7.5),
+    height: theme.spacing(7.5),
+  }
 }));
 
 export default function Games(props) {
@@ -97,31 +101,15 @@ export default function Games(props) {
   const [filteredGames, setFilteredGames] = useState([]);
 
   useEffect(() => {
-    // const fetchData = async () => {
-    //   try {
-        // const response = await handler(5);
-        // const queryResp = await client.query(q.Paginate(q.Match(q.Index('games_by_season'), 5), { size: 500 }));
-        // const allRefs = queryResp.data;
-        // const getAll = allRefs.map((ref) => q.Get(ref));
-
-        // const response = await client.query(getAll);
-        // const allGames = response.map((g) => g.data);
-
-        // const matches = convertGamesToMatches(allGames);
-        // matches.sort((a, b) => new Date(a.gameTime) - new Date(b.gameTime)); // earlier game times first
-
-        // setGames(matches);
-        // setFilteredGames(matches);
-        setMatches(convertGamesToMatches(games));
-        setFilteredGames(convertGamesToMatches(games) || []);
-        setLoading(false);
-    //   } catch (e) {
-    //     console.error(e);
-    //     setLoading(false);
-    //   }
-    // }
-
-    // fetchData();
+    const convertedGames = convertGamesToMatches(games);
+    convertedGames?.sort((a, b) => ( // earlier game times first, then upper division first
+      new Date(a.gameTime) - new Date(b.gameTime) !== 0
+      ? new Date(a.gameTime) - new Date(b.gameTime)
+      : parseInt(a.curDivision, 10) - parseInt(b.curDivision, 10))
+    );
+    setMatches(convertedGames);
+    setFilteredGames(convertedGames);
+    setLoading(false);
   }, []);
 
   /**
@@ -193,12 +181,13 @@ export default function Games(props) {
                   src={game.curDivision === '2' ? lowerDivLogo : upperDivLogo}
                   variant="square"
                   alt={`Division ${game.curDivision} logo`}
+                  className={classes.largeIcon}
                 />
               </Grid>
             </Grid>
             <Grid item xs={10}>
               <Grid container direction="column">
-                <Grid container justify="flex-start" alignItems="flex-end">
+                <Grid container justify="flex-start" alignItems="center">
                   <Avatar src={logoSrc} variant="square" alt={`${game.homeTeamName} logo`} />
                   <Grid item xs>
                     <span className={`${classes.teamDesc} ${classes.teamRank}`}>
@@ -216,7 +205,7 @@ export default function Games(props) {
                   ))}
                   </Grid>
                 </Grid>
-                <Grid container justify="flex-start" alignItems="flex-end">
+                <Grid container justify="flex-start" alignItems="center">
                   <Avatar src={oppLogoSrc} variant="square" alt={`${game.awayTeamName} logo`} />
                   <Grid item xs>
                     <span className={`${classes.teamDesc} ${classes.teamRank}`}>

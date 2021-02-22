@@ -29,8 +29,9 @@ const useStyles = makeStyles((theme) => ({
   contentContainer: {
     position: 'absolute',
     top: 48,
-    width: `calc(100% - ${theme.spacing(4)}px) !important`,
+    width: `calc(100% - ${theme.spacing(2)}px) !important`,
     margin: theme.spacing(1),
+    paddingLeft: theme.spacing(1),
     backgroundColor: theme.palette.primary.main,
   },
   mainLogo: {

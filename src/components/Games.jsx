@@ -7,17 +7,17 @@ import { makeStyles } from '@material-ui/core/styles';
 
 // import NotFound from './NotFound';
 // import { lookupTabNumByPath } from '../utils/tabHelper';
-import faunadb from 'faunadb';
+// import faunadb from 'faunadb';
 // import handler from '../api/games-getBySeason';
 import BaseApp from './BaseApp';
 import { convertGamesToMatches } from '../utils/dataUtils';
 
 import * as images from '../images';
 
-const q = faunadb.query;
-const client = new faunadb.Client({
-  secret: process.env.FAUNADB_SECRET,
-});
+// const q = faunadb.query;
+// const client = new faunadb.Client({
+//   secret: process.env.FAUNADB_SECRET,
+// });
 
 const useStyles = makeStyles((theme) => ({
   gamePaper: {
@@ -89,37 +89,39 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Games(props) {
-  // const { children } = props;
+  const { games } = props;
   
   const classes = useStyles();
   const [loading, setLoading] = useState(true);
-  const [games, setGames] = useState([]);
+  const [matches, setMatches] = useState([]);
   const [filteredGames, setFilteredGames] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
+    // const fetchData = async () => {
+    //   try {
         // const response = await handler(5);
-        const queryResp = await client.query(q.Paginate(q.Match(q.Index('games_by_season'), 5), { size: 500 }));
-        const allRefs = queryResp.data;
-        const getAll = allRefs.map((ref) => q.Get(ref));
+        // const queryResp = await client.query(q.Paginate(q.Match(q.Index('games_by_season'), 5), { size: 500 }));
+        // const allRefs = queryResp.data;
+        // const getAll = allRefs.map((ref) => q.Get(ref));
 
-        const response = await client.query(getAll);
-        const allGames = response.map((g) => g.data);
+        // const response = await client.query(getAll);
+        // const allGames = response.map((g) => g.data);
 
-        const matches = convertGamesToMatches(allGames);
-        matches.sort((a, b) => new Date(a.gameTime) - new Date(b.gameTime)); // earlier game times first
+        // const matches = convertGamesToMatches(allGames);
+        // matches.sort((a, b) => new Date(a.gameTime) - new Date(b.gameTime)); // earlier game times first
 
-        setGames(matches);
-        setFilteredGames(matches);
+        // setGames(matches);
+        // setFilteredGames(matches);
+        setMatches(convertGamesToMatches(games));
+        setFilteredGames(convertGamesToMatches(games) || []);
         setLoading(false);
-      } catch (e) {
-        console.error(e);
-        setLoading(false);
-      }
-    };
+    //   } catch (e) {
+    //     console.error(e);
+    //     setLoading(false);
+    //   }
+    // }
 
-    fetchData();
+    // fetchData();
   }, []);
 
   /**
@@ -127,11 +129,13 @@ export default function Games(props) {
    * @param {string} teamName team name to filter on
    */
   const filterGames = (teamName) => {
-    if (!teamName) {
-      setFilteredGames(games);
-    } else {
-      const tempGames = games.filter((game) => game.homeTeamName === teamName || game.awayTeamName === teamName);
-      setFilteredGames(tempGames);
+    if (matches && matches.length > 1) {
+      if (!teamName) {
+        setFilteredGames(matches);
+      } else {
+        const tempGames = matches.filter((game) => game.homeTeamName === teamName || game.awayTeamName === teamName);
+        setFilteredGames(tempGames);
+      }
     }
   };
 
@@ -243,7 +247,7 @@ export default function Games(props) {
 
   return (
     <BaseApp>
-      {games.length !== filteredGames.length && (
+      {matches.length !== filteredGames.length && (
         <Button onClick={() => filterGames()}>
           Show All
         </Button>

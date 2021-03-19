@@ -104,12 +104,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Games(props) {
-  const { games } = props;
+  const { games, teams } = props;
   
   const classes = useStyles();
   const [loading, setLoading] = useState(true);
   const [matches, setMatches] = useState([]);
   const [filteredGames, setFilteredGames] = useState([]);
+
+  const [filterTeam, setFilterTeam] = useState('');
 
   useEffect(() => {
     const convertedGames = convertGamesToMatches(games);
@@ -131,9 +133,11 @@ export default function Games(props) {
     if (matches && matches.length > 1) {
       if (!teamName) {
         setFilteredGames(matches);
+        setFilterTeam('');
       } else {
         const tempGames = matches.filter((game) => game.homeTeamName === teamName || game.awayTeamName === teamName);
         setFilteredGames(tempGames);
+        setFilterTeam(teamName);
       }
     }
   };
@@ -239,8 +243,8 @@ export default function Games(props) {
                     </span>
                   </Grid>
                   <Grid item xs>
-                  {game.games.map((g) => (
-                    <span className={`${g.homeWin ? classes.scoreWin : classes.scoreLoss} ${classes.scoreText}`}>
+                  {game.games.map((g, idx) => (
+                    <span key={`home-score-${g.gameNum}-${idx}`} className={`${g.homeWin ? classes.scoreWin : classes.scoreLoss} ${classes.scoreText}`}>
                       {g.homeTeamScore}
                     </span>
                   ))}
@@ -263,8 +267,8 @@ export default function Games(props) {
                     </span>
                   </Grid>
                   <Grid item xs>
-                  {game.games.map((g) => (
-                    <span className={`${!g.homeWin ? classes.scoreWin : classes.scoreLoss} ${classes.scoreText}`}>
+                  {game.games.map((g, idx) => (
+                    <span key={`away-score-${g.gameNum}-${idx}`} className={`${!g.homeWin ? classes.scoreWin : classes.scoreLoss} ${classes.scoreText}`}>
                       {g.awayTeamScore}
                     </span>
                   ))}
@@ -283,12 +287,34 @@ export default function Games(props) {
 
   return (
     <BaseApp>
-      {matches.length !== filteredGames.length && (
-        <Button onClick={() => filterGames()}>
-          Show All
-        </Button>
-      )}
-      <Grid container justify="flex-start" alignItems="flex-end">
+      <Grid container justify="flex-start" alignItems="flex-end" className={classes.gamesBump}>
+        <Grid item xs={12}>
+          <Grid container spacing={1} justify="flex-start" alignItems="flex-end">
+            <Grid item xs key="show-team-all">
+              <Button
+                variant="contained"
+                color={filterTeam === '' ? 'primary' : 'secondary'}
+                disabled={filterTeam === ''}
+                onClick={() => filterGames()}
+              >
+                <Avatar src={images['RLL_logo']} />
+              </Button>
+            </Grid>
+            {teams.map((team) => (
+              <Grid item xs key={`show-team-${team.name}`}>
+                <Button
+                  variant="contained"
+                  color={filterTeam === team.name ? 'primary' : 'secondary'}
+                  disabled={filterTeam === team.name}
+                  onClick={() => filterGames(team.name)}
+                >
+                  <Avatar src={images[`LOGO_${team.name.replaceAll(' ', '_')}`]} />
+                  {/* {team.name} */}
+                </Button>
+              </Grid>
+            ))}
+          </Grid>
+        </Grid>
         <Grid item xs={12}>
           <Grid container spacing={2}>
             {allGames}

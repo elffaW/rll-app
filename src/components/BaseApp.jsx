@@ -72,7 +72,7 @@ export default function BaseApp(props) {
     <div>
       <AppBar position="fixed">
         <Toolbar variant="dense">
-          <React.Fragment key="nav-drawer-left">
+          {/* <React.Fragment key="nav-drawer-left">
             <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -110,7 +110,7 @@ export default function BaseApp(props) {
                 <Divider />
               </List>
             </SwipeableDrawer>
-          </React.Fragment>
+          </React.Fragment> */}
           <Avatar src={logo} className={classes.mainLogo} />
           <Typography variant="h4" className={classes.mainTitle}>
             Rocket League League

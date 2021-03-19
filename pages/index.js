@@ -29,7 +29,7 @@ export async function getStaticProps() {
   });
 
   try {
-    const queryResp = await client.query(q.Paginate(q.Match(q.Index('games_by_season'), 5), { size: 500 }));
+    const queryResp = await client.query(q.Paginate(q.Match(q.Index('games_by_season'), 6), { size: 500 }));
     const allRefs = queryResp.data;
     const getAll = allRefs.map((ref) => q.Get(ref));
 

@@ -66,6 +66,16 @@ import LOGO_TOAST_v1 from './LOGO_TOAST_v1.png';
 import LOGO_TRI_CS from './LOGO_TRI-CS.png';
 import LOGO_TRIX from './LOGO_TRIX.png';
 import LOGO_TURKEYS from './LOGO_TURKEYS.png';
+import LOGO_MCDONALDS from './LOGO_MCDONALDS.png';
+import LOGO_DAIRY_QUEEN from './LOGO_DAIRY QUEEN.png';
+import LOGO_FAMOUS_D from './LOGO_FAMOUS D.png';
+import LOGO_FAMOUS_DAVES from './LOGO_FAMOUS D.png';
+import LOGO_HOOTERS from './LOGO_HOOTERS.png';
+import LOGO_KFC from './LOGO_KFC.png';
+import LOGO_LONG_JOHN from './LOGO_LONG JOHN.png';
+import LOGO_OUTBACK from './LOGO_OUTBACK.png';
+import LOGO_PANDA_EX from './LOGO_PANDA EX.png';
+import LOGO_TACO_BELL from './LOGO_TACO BELL.png';
 import Nintendo_Switch_Logo from './Nintendo_Switch_Logo.svg';
 import Nintendo_Switch_Logo_withname from './Nintendo_Switch_Logo_withname.svg';
 import PlayStation_logo from './PlayStation_logo.svg';
@@ -81,6 +91,7 @@ import RLL_logo_S3 from './RLL_logo_S3.png';
 import Robot_icon from './Robot_icon.svg';
 import Steam_icon_logo from './Steam_icon_logo.svg';
 import Xbox_one_logo from './Xbox_one_logo.svg';
+
 
 export {
   CAR_BACKFIRE,
@@ -151,6 +162,16 @@ export {
   LOGO_TRI_CS,
   LOGO_TRIX,
   LOGO_TURKEYS,
+  LOGO_MCDONALDS,
+  LOGO_DAIRY_QUEEN,
+  LOGO_FAMOUS_D,
+  LOGO_FAMOUS_DAVES,
+  LOGO_HOOTERS,
+  LOGO_KFC,
+  LOGO_LONG_JOHN,
+  LOGO_OUTBACK,
+  LOGO_PANDA_EX,
+  LOGO_TACO_BELL,
   Nintendo_Switch_Logo,
   Nintendo_Switch_Logo_withname,
   PlayStation_logo,

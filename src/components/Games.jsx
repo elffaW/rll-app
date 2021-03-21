@@ -3,21 +3,11 @@ import {
   Typography, Grid, Avatar, Paper, CircularProgress, Button
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-// import { NavLink, useLocation } from 'react-router-dom';
 
-// import NotFound from './NotFound';
-// import { lookupTabNumByPath } from '../utils/tabHelper';
-// import faunadb from 'faunadb';
-// import handler from '../api/games-getBySeason';
 import BaseApp from './BaseApp';
 import { convertGamesToMatches } from '../utils/dataUtils';
 
 import * as images from '../images';
-
-// const q = faunadb.query;
-// const client = new faunadb.Client({
-//   secret: process.env.FAUNADB_SECRET,
-// });
 
 const useStyles = makeStyles((theme) => ({
   gamePaper: {
@@ -33,10 +23,6 @@ const useStyles = makeStyles((theme) => ({
   weekDate: {
     float: 'right',
   },
-  // teamIcon: {
-  //   width: `min(100%, ${theme.spacing(10)}px)`,
-  //   height: `min(100%, ${theme.spacing(10)}px)`,
-  // },
   linkStyle: {
     cursor: 'pointer',
   },
@@ -98,7 +84,6 @@ const useStyles = makeStyles((theme) => ({
     fontVariant: 'small-caps',
     color: 'inherit',
     marginTop: theme.spacing(8),
-    // textShadow: 'none',
     fontWeight: 700,
   },
 }));

@@ -9,6 +9,7 @@
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.7.1",
     "faunadb": "^4.1.0",
+    "memoizee": "^0.4.15",
     "next": "^10.0.7",
     "next-pwa": "^5.0.5",
     "node-sass": "^5.0.0",

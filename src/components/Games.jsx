@@ -3,6 +3,7 @@ import {
   Typography, Grid, Avatar, Paper, CircularProgress, Button
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import memoize from 'memoizee';
 
 import BaseApp from './BaseApp';
 import { convertGamesToMatches } from '../utils/dataUtils';
@@ -44,6 +45,9 @@ const useStyles = makeStyles((theme) => ({
     '& > span.last': {
       color: theme.palette.secondary.dark,
     },
+  },
+  scoreSection: {
+    paddingTop: theme.spacing(0.5),
   },
   teamRank: {
     fontSize: '0.9rem',
@@ -100,11 +104,11 @@ export default function Games(props) {
 
   useEffect(() => {
     const convertedGames = convertGamesToMatches(games);
-    convertedGames?.sort((a, b) => ( // earlier game times first, then upper division first
+    convertedGames?.sort((a, b) => ( // earlier game times first, then gongshow order
       new Date(a.gameTime) - new Date(b.gameTime) !== 0
       ? new Date(a.gameTime) - new Date(b.gameTime)
-      : parseInt(a.curDivision, 10) - parseInt(b.curDivision, 10))
-    );
+      : parseInt(a.streamRoom.slice(-1), 10) - parseInt(b.streamRoom.slice(-1), 10)
+    ));
     setMatches(convertedGames);
     setFilteredGames(convertedGames);
     setLoading(false);
@@ -114,18 +118,21 @@ export default function Games(props) {
    * filters the displayed games by team name
    * @param {string} teamName team name to filter on
    */
-  const filterGames = (teamName) => {
+  const filterGames = memoize((teamName) => {
+    setLoading(true);
     if (matches && matches.length > 1) {
       if (!teamName) {
         setFilteredGames(matches);
         setFilterTeam('');
+        setLoading(false);
       } else {
         const tempGames = matches.filter((game) => game.homeTeamName === teamName || game.awayTeamName === teamName);
         setFilteredGames(tempGames);
         setFilterTeam(teamName);
+        setLoading(false);
       }
     }
-  };
+  });
 
   if (loading) {
     return (
@@ -177,6 +184,9 @@ export default function Games(props) {
     const gsNum = game.streamRoom.slice(-1);
     const gsColor = gsNum === '1' ? '#c62828' : gsNum === '2' ? 'blue' : 'yellow';
 
+    const homeTeam = teams.find((t) => t.id === game.homeTeamId);
+    const awayTeam = teams.find((t) => t.id === game.awayTeamId);
+
     const curGame = (
       <Grid item xs={12} md={4} key={`gameweek-${curWeek}-game-${game.matchNum}row`}>
         <Paper className={classes.gamePaper}>
@@ -208,10 +218,9 @@ export default function Games(props) {
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={9}>
-              <Grid container direction="column">
-                <Grid container justify="flex-start" alignItems="center"
-                >
+            <Grid item xs={9} className={classes.scoreSection}>
+              <Grid container direction="column" justify="space-around">
+                <Grid container direction="row" justify="space-around" alignItems="center">
                   <Avatar
                     src={logoSrc}
                     variant="square"
@@ -221,18 +230,18 @@ export default function Games(props) {
                   />
                   <Grid item xs onClick={() => filterGames(game.homeTeamName)} className={classes.linkStyle}>
                     <span className={`${classes.teamDesc} ${classes.teamRank}`}>
-                      {game.homeTeamRank}
+                      {homeTeam ? homeTeam.rank: game.homeTeamRank}
                     </span>
                     <span className={`${classes.teamName} ${game.matchResult === 'L' ? classes.nameLoss : ''}`}>
                       {game.homeTeamName}
                     </span>
                   </Grid>
                   <Grid item xs>
-                  {game.games.map((g, idx) => (
-                    <span key={`home-score-${g.gameNum}-${idx}`} className={`${g.homeWin ? classes.scoreWin : classes.scoreLoss} ${classes.scoreText}`}>
-                      {g.homeTeamScore}
-                    </span>
-                  ))}
+                    {game.games.map((g, idx) => (
+                      <span key={`home-score-${g.gameNum}-${idx}`} className={`${g.homeWin ? classes.scoreWin : classes.scoreLoss} ${classes.scoreText}`}>
+                        {g.homeTeamScore}
+                      </span>
+                    ))}
                   </Grid>
                 </Grid>
                 <Grid container justify="flex-start" alignItems="center">
@@ -245,18 +254,18 @@ export default function Games(props) {
                   />
                   <Grid item xs onClick={() => filterGames(game.awayTeamName)} className={classes.linkStyle}>
                     <span className={`${classes.teamDesc} ${classes.teamRank}`}>
-                      {game.awayTeamRank}
+                      {awayTeam ? awayTeam.rank: game.awayTeamRank}
                     </span>
                     <span className={`${classes.teamName} ${game.matchResult === 'W' ? classes.nameLoss : ''}`}>
                       {game.awayTeamName}
                     </span>
                   </Grid>
                   <Grid item xs>
-                  {game.games.map((g, idx) => (
-                    <span key={`away-score-${g.gameNum}-${idx}`} className={`${!g.homeWin ? classes.scoreWin : classes.scoreLoss} ${classes.scoreText}`}>
-                      {g.awayTeamScore}
-                    </span>
-                  ))}
+                    {game.games.map((g, idx) => (
+                      <span key={`away-score-${g.gameNum}-${idx}`} className={`${!g.homeWin ? classes.scoreWin : classes.scoreLoss} ${classes.scoreText}`}>
+                        {g.awayTeamScore}
+                      </span>
+                    ))}
                   </Grid>
                 </Grid>
               </Grid>

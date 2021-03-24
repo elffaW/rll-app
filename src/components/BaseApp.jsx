@@ -16,7 +16,7 @@ import {
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles } from '@material-ui/core/styles';
-// import { NavLink, useLocation } from 'react-router-dom';
+import Link from 'next/link';
 
 // import NotFound from './NotFound';
 // import { lookupTabNumByPath } from '../utils/tabHelper';
@@ -53,11 +53,13 @@ const useStyles = makeStyles((theme) => ({
   },
   mainTitle: {
     fontFamily: 'Oswald',
-    textShadow: '1px 1px 2px black',
+    // textShadow: '1px 1px 2px black',
     marginTop: -theme.spacing(0.5),
+    cursor: 'pointer',
   },
   navDrawer: {
-    // backgroundColor: theme.palette.primary.dark,
+    backgroundColor: theme.palette.primary.dark,
+    height: '100%',
   },
 }));
 
@@ -72,7 +74,7 @@ export default function BaseApp(props) {
     <div>
       <AppBar position="fixed">
         <Toolbar variant="dense">
-          {/* <React.Fragment key="nav-drawer-left">
+          <React.Fragment key="nav-drawer-left">
             <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -86,9 +88,8 @@ export default function BaseApp(props) {
               open={navOpen}
               onClose={() => setNavOpen(false)}
               onOpen={() => setNavOpen(true)}
-              className={classes.navDrawer}
             >
-              <List>
+              <List className={classes.navDrawer}>
                 <ListItem>
                   <ListItemIcon>
                     <IconButton
@@ -102,15 +103,42 @@ export default function BaseApp(props) {
                   </ListItemIcon>
                   <ListItemText>
                     <Avatar src={logo} className={classes.mainLogo} />
-                    <Typography variant="h5" className={classes.mainTitle}>
+                    {/* <Typography variant="h5" className={classes.mainTitle}>
                       RLL
-                    </Typography>
+                    </Typography> */}
                   </ListItemText>
                 </ListItem>
                 <Divider />
+                <ListItem>
+                  <ListItemText>
+                    <Link href="/">
+                      <Typography variant="h6" className={classes.mainTitle}>
+                        Schedule
+                      </Typography>
+                    </Link>
+                  </ListItemText>
+                </ListItem>
+                <ListItem>
+                  <ListItemText>
+                    <Link href="/standings">
+                      <Typography variant="h6" className={classes.mainTitle}>
+                        Standings
+                      </Typography>
+                    </Link>
+                  </ListItemText>
+                </ListItem>
+                <ListItem>
+                  <ListItemText>
+                    <Link href="/rosters">
+                      <Typography variant="h6" className={classes.mainTitle}>
+                        Rosters
+                      </Typography>
+                    </Link>
+                  </ListItemText>
+                </ListItem>
               </List>
             </SwipeableDrawer>
-          </React.Fragment> */}
+          </React.Fragment>
           <Avatar src={logo} className={classes.mainLogo} />
           <Typography variant="h4" className={classes.mainTitle}>
             Rocket League League

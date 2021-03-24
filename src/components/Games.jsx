@@ -125,6 +125,11 @@ export default function Games(props) {
         setFilteredGames(matches);
         setFilterTeam('');
         setLoading(false);
+      } else if (parseInt(teamName, 10) > 0) {
+        const tempGames = matches.filter((game) => game.curDivision === teamName);
+        setFilteredGames(tempGames);
+        setFilterTeam(teamName);
+        setLoading(false);
       } else {
         const tempGames = matches.filter((game) => game.homeTeamName === teamName || game.awayTeamName === teamName);
         setFilteredGames(tempGames);
@@ -283,29 +288,41 @@ export default function Games(props) {
     <BaseApp>
       <Grid container justify="flex-start" alignItems="flex-end" className={classes.gamesBump}>
         <Grid item xs={12}>
-          <Grid container spacing={1} justify="flex-start" alignItems="flex-end">
-            <Grid item xs key="show-team-all">
+          <Grid container spacing={1} justify="space-between" alignItems="flex-end">
+            <Button
+              variant="contained"
+              color={filterTeam === '' ? 'primary' : 'secondary'}
+              disabled={filterTeam === ''}
+              onClick={() => filterGames()}
+            >
+              ALL
+            </Button>
+            <Button
+              variant="contained"
+              color={filterTeam === '1' ? 'primary' : 'secondary'}
+              disabled={filterTeam === '1'}
+              onClick={() => filterGames('1')}
+            >
+              <Avatar src={images['RLL_logo']} />
+            </Button>
+            <Button
+              variant="contained"
+              color={filterTeam === '2' ? 'primary' : 'secondary'}
+              disabled={filterTeam === '2'}
+              onClick={() => filterGames('2')}
+            >
+              <Avatar src={images['RLL_logo_lower']} />
+            </Button>
+            {teams.map((team) => (
               <Button
                 variant="contained"
-                color={filterTeam === '' ? 'primary' : 'secondary'}
-                disabled={filterTeam === ''}
-                onClick={() => filterGames()}
+                color={filterTeam === team.name ? 'primary' : 'secondary'}
+                disabled={filterTeam === team.name}
+                onClick={() => filterGames(team.name)}
               >
-                <Avatar src={images['RLL_logo']} />
+                <Avatar src={images[`LOGO_${team.name.replaceAll(' ', '_')}`]} />
+                {/* {team.name} */}
               </Button>
-            </Grid>
-            {teams.map((team) => (
-              <Grid item xs key={`show-team-${team.name}`}>
-                <Button
-                  variant="contained"
-                  color={filterTeam === team.name ? 'primary' : 'secondary'}
-                  disabled={filterTeam === team.name}
-                  onClick={() => filterGames(team.name)}
-                >
-                  <Avatar src={images[`LOGO_${team.name.replaceAll(' ', '_')}`]} />
-                  {/* {team.name} */}
-                </Button>
-              </Grid>
             ))}
           </Grid>
         </Grid>

@@ -1,15 +1,15 @@
 import React from 'react';
 import faunadb from 'faunadb';
 
-import Games from '../../src/components/Games';
+import Teams from '../../src/components/Teams';
 
 // import { convertGamesToMatches } from '../src/utils/dataUtils';
 // import './App.scss';
 
-function App({ games, teams }) {
+function App({ players, teams }) {
   return (
     <div className="app">
-      <Games games={games} teams={teams} />
+      <Teams teams={teams} players={players} />
     </div>
   );
 }
@@ -31,12 +31,12 @@ export async function getStaticProps() {
   const CUR_SEASON = 6;
 
   try {
-    const queryResp = await client.query(q.Paginate(q.Match(q.Index('games_by_season'), CUR_SEASON), { size: 1000 }));
-    const allRefs = queryResp.data;
-    const getAll = allRefs.map((ref) => q.Get(ref));
+    const playerResp = await client.query(q.Paginate(q.Match(q.Index('players_by_season'), CUR_SEASON), { size: 1000 }));
+    const playerRefs = playerResp.data;
+    const getPlayers = playerRefs.map((ref) => q.Get(ref));
 
-    const response = await client.query(getAll);
-    const allGames = response.map((g) => g.data);
+    const playersData = await client.query(getPlayers);
+    const allPlayers = playersData.map((g) => g.data);
 
     // also get the list of teams
     const teamResp = await client.query(q.Paginate(q.Match(q.Index('teams_by_season'), CUR_SEASON), { size: 20 }));
@@ -50,7 +50,7 @@ export async function getStaticProps() {
     // matches.sort((a, b) => new Date(a.gameTime) - new Date(b.gameTime)); // earlier game times first
 
     // console.log(matches);
-    return { props: { games: allGames, teams: allTeams } };
+    return { props: { players: allPlayers, teams: allTeams } };
   } catch (e) {
     console.error(e);
   }

@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     cursor: 'pointer',
   },
   navDrawer: {
-    backgroundColor: theme.palette.primary.dark,
+    backgroundColor: theme.palette.primary.main,
     height: '100%',
   },
 }));
@@ -118,7 +118,7 @@ export default function BaseApp(props) {
                     </Link>
                   </ListItemText>
                 </ListItem>
-                <ListItem>
+                {/* <ListItem>
                   <ListItemText>
                     <Link href="/standings">
                       <Typography variant="h6" className={classes.mainTitle}>
@@ -126,12 +126,12 @@ export default function BaseApp(props) {
                       </Typography>
                     </Link>
                   </ListItemText>
-                </ListItem>
+                </ListItem> */}
                 <ListItem>
                   <ListItemText>
-                    <Link href="/rosters">
+                    <Link href="/teams">
                       <Typography variant="h6" className={classes.mainTitle}>
-                        Rosters
+                        Teams
                       </Typography>
                     </Link>
                   </ListItemText>

@@ -13,6 +13,41 @@ h1, h2, h3, h4, h5, h6 {
   font-family: Oswald !important;
 }
 
+
+.game-with-division-1 {
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+}
+.game-with-division-1::before {
+  content: "";
+  position: absolute;
+  background-image: url("/RLL_logo.png");
+  background-size: cover;
+  background-position: right;
+  left: 50%;
+  width: 70%; height: 100%;
+  filter: contrast(50%) opacity(50%);
+  z-index: -1;
+}
+.game-with-division-2 {
+  // background-color: rgb(99, 109, 99) !important;
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+}
+.game-with-division-2::before {
+  content: "";
+  position: absolute;
+  background-image: url("/RLL_logo_lower.png");
+  background-size: cover;
+  background-position: right;
+  left: 50%;
+  width: 70%; height: 100%;
+  filter: contrast(50%) opacity(50%);
+  z-index: -1;
+}
+
 .logo-test {
   position: relative;
 }

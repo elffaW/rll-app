@@ -57,6 +57,13 @@ const useStyles = makeStyles((theme) => ({
     marginTop: -theme.spacing(0.5),
     cursor: 'pointer',
   },
+  rllSiteLink: {
+    fontFamily: 'Oswald',
+    textShadow: `1px 1px 1px ${theme.palette.primary.dark}`,
+    marginTop: -theme.spacing(0.5),
+    cursor: 'pointer',
+    // color: theme.palette.primary.dark,
+  },
   navDrawer: {
     backgroundColor: theme.palette.primary.main,
     height: '100%',
@@ -132,6 +139,15 @@ export default function BaseApp(props) {
                     <Link href="/teams">
                       <Typography variant="h6" className={classes.mainTitle}>
                         Teams
+                      </Typography>
+                    </Link>
+                  </ListItemText>
+                </ListItem>
+                <ListItem>
+                  <ListItemText>
+                    <Link href="https://rll.lol">
+                      <Typography variant="h6" className={classes.rllSiteLink}>
+                        RLL Main Website
                       </Typography>
                     </Link>
                   </ListItemText>
